@@ -1,0 +1,2803 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>US.AI // Private Relationship Intelligence System</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500&family=Outfit:wght@300;400;600;800&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* CSS RESET & VARIABLES */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            /* Cyber Theme */
+            --accent-cyber: #00ff88;
+            --accent-cyber-alt: #00e5ff;
+            --bg-cyber: #0a0a0f;
+            --card-cyber: rgba(16, 20, 30, 0.85);
+            --border-cyber: rgba(0, 255, 136, 0.2);
+
+            /* Cozy Theme */
+            --bg-cozy: #FAF6EE;
+            --text-cozy: #4E3629;
+            --accent-cozy: #FF8A80;
+            --accent-cozy-dark: #D84315;
+            --card-cozy: rgba(255, 255, 255, 0.95);
+            --border-cozy: rgba(78, 54, 41, 0.15);
+
+            /* Reading Theme */
+            --bg-read: #fdfbf7;
+            --text-read: #2c2c2c;
+            --accent-read: #a37070;
+        }
+
+        body {
+            background-color: var(--bg-cyber);
+            color: #e2e8f0;
+            font-family: 'Outfit', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            transition: background-color 1s ease, color 1s ease;
+        }
+
+        body.cyber-theme {
+            background-color: var(--bg-cyber);
+            color: #e2e8f0;
+        }
+
+        body.cozy-theme {
+            background-color: var(--bg-cozy);
+            color: var(--text-cozy);
+        }
+
+        body.read-theme {
+            background-color: var(--bg-read);
+            color: var(--text-read);
+        }
+
+        /* Screen Wrapper */
+        #app {
+            position: relative;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Phase Layouts */
+        .phase {
+            display: none !important;
+            width: 100%;
+            min-height: 100vh;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            padding: 20px;
+            overflow-y: auto;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .phase.active {
+            display: flex !important;
+            animation: fadeIn 0.8s ease forwards;
+        }
+
+        /* Global Buttons */
+        .btn-neon {
+            background: transparent;
+            border: 1px solid var(--accent-cyber);
+            color: var(--accent-cyber);
+            padding: 12px 28px;
+            font-family: 'Fira Code', monospace;
+            font-size: 1rem;
+            border-radius: 6px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.1);
+        }
+
+        .btn-neon:hover {
+            background: var(--accent-cyber);
+            color: var(--bg-cyber);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .btn-cozy {
+            background: var(--accent-cozy);
+            border: none;
+            color: white;
+            padding: 12px 28px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(255, 138, 128, 0.3);
+        }
+
+        .btn-cozy:hover {
+            background: #ff7062;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(255, 138, 128, 0.5);
+        }
+
+        /* TYPOGRAPHY */
+        .glitch-text {
+            font-family: 'Fira Code', monospace;
+            position: relative;
+        }
+
+        /* TYPEWRITER CURSOR */
+        .cursor-blink {
+            display: inline-block;
+            width: 8px;
+            height: 1.1em;
+            background-color: currentColor;
+            margin-left: 4px;
+            animation: blink 0.8s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* PHASE 1: US.AI */
+        .us-ai-container {
+            max-width: 480px;
+            width: 100%;
+            background: var(--card-cyber);
+            border: 1px solid var(--border-cyber);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .us-ai-logo {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 4px;
+            color: var(--accent-cyber);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            margin-bottom: 5px;
+        }
+
+        .us-ai-subtitle {
+            font-size: 0.75rem;
+            font-family: 'Fira Code', monospace;
+            letter-spacing: 2px;
+            color: #8892b0;
+            margin-bottom: 25px;
+        }
+
+        .scanner-frame {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto 25px;
+            border: 2px solid var(--accent-cyber);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.15);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .scanner-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.85) contrast(1.1) grayscale(0.2);
+            transition: filter 0.5s ease;
+        }
+
+        .scanner-frame::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+        }
+
+        .scanner-line {
+            position: absolute;
+            width: 100%;
+            height: 4px;
+            background: var(--accent-cyber);
+            box-shadow: 0 0 10px var(--accent-cyber);
+            top: 0;
+            left: 0;
+            animation: scan 4s linear infinite;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+            }
+
+            50% {
+                top: 100%;
+            }
+
+            100% {
+                top: 0;
+            }
+        }
+
+        .us-ai-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            text-align: left;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: #8892b0;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        .us-ai-info span.label {
+            color: var(--accent-cyber);
+            font-weight: 500;
+        }
+
+        .boot-text {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-cyber-alt);
+            height: 45px;
+            margin-bottom: 20px;
+            text-align: left;
+            line-height: 1.4;
+        }
+
+        .enter-btn-wrap {
+            height: 50px;
+        }
+
+        /* PHASE 2: SHREYAS.EXE */
+        .photo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            max-width: 450px;
+            width: 100%;
+        }
+
+        .photo-frame {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 4px solid var(--accent-cyber-alt);
+            box-shadow: 0 10px 30px rgba(0, 240, 255, 0.2);
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            margin-bottom: 25px;
+        }
+
+        .photo-frame.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .photo-frame img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 6s ease;
+        }
+
+        .photo-frame.visible img {
+            transform: scale(1.08);
+        }
+
+        .caption-box {
+            font-family: 'Fira Code', monospace;
+            font-size: 1.05rem;
+            color: #e2e8f0;
+            text-align: center;
+            min-height: 80px;
+            line-height: 1.5;
+            padding: 0 10px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+        }
+
+        /* PHASE 3: TERMINAL */
+        .terminal-container {
+            width: 100%;
+            max-width: 600px;
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 8px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: #00ff00;
+            padding: 25px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.85);
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+
+        .terminal-line {
+            margin-bottom: 12px;
+            line-height: 1.4;
+            opacity: 0;
+            animation: terminalFade 0.3s forwards;
+        }
+
+        @keyframes terminalFade {
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* PHASE 4: CHAT */
+        .chat-container {
+            width: 100%;
+            max-width: 400px;
+            height: 520px;
+            background: #eae6df;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .chat-header {
+            background: #075e54;
+            color: white;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ffb74d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .chat-info {
+            flex-grow: 1;
+        }
+
+        .chat-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .chat-status {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .chat-body {
+            flex-grow: 1;
+            padding: 15px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            background-image: radial-gradient(rgba(0, 0, 0, 0.03) 1px, transparent 0);
+            background-size: 16px 16px;
+        }
+
+        .msg {
+            max-width: 75%;
+            padding: 8px 14px;
+            border-radius: 12px;
+            font-size: 0.88rem;
+            line-height: 1.4;
+            position: relative;
+            transform: scale(0.9);
+            opacity: 0;
+            animation: msgPop 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+        }
+
+        @keyframes msgPop {
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .msg.sent {
+            align-self: flex-end;
+            background: #d9fdd3;
+            color: #303030;
+            border-top-right-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        .msg.received {
+            align-self: flex-start;
+            background: #ffffff;
+            color: #303030;
+            border-top-left-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Typing indicator */
+        .typing-bubble {
+            align-self: flex-start;
+            background: #ffffff;
+            padding: 10px 15px;
+            border-radius: 12px;
+            border-top-left-radius: 2px;
+            box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .typing-dots span {
+            width: 6px;
+            height: 6px;
+            background: #a0a0a0;
+            border-radius: 50%;
+            animation: dotBlink 1.4s infinite both;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes dotBlink {
+
+            0%,
+            80%,
+            100% {
+                transform: scale(0.6);
+                opacity: 0.4;
+            }
+
+            40% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chat-warning-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            padding: 30px;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.5s ease;
+            z-index: 10;
+        }
+
+        .chat-warning-overlay.visible {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .warning-title {
+            color: #ff5252;
+            font-family: 'Fira Code', monospace;
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(255, 82, 82, 0.4);
+        }
+
+        .warning-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        /* PHASE 5: DREAM TRANSITION */
+        .dream-transition-screen {
+            background-color: #fff;
+            transition: background-color 2.5s ease;
+        }
+
+        .dream-transition-text {
+            color: #000;
+            font-size: 1.5rem;
+            font-weight: 300;
+            letter-spacing: 4px;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+            text-align: center;
+        }
+
+        .dream-transition-text.visible {
+            opacity: 1;
+        }
+
+        /* PHASE 6: STORY MAP */
+        .map-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            color: var(--text-cozy);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .map-wrapper {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 520px;
+            background: #e8f4ea;
+            /* soft grass green */
+            border: 4px solid var(--border-cozy);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 12px 35px rgba(78, 54, 41, 0.15);
+        }
+
+        .map-svg-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .map-decor {
+            position: absolute;
+            font-size: 1.3rem;
+            pointer-events: none;
+            user-select: none;
+            animation: floatSlow 3s ease-in-out infinite alternate;
+            z-index: 2;
+        }
+
+        @keyframes floatSlow {
+            from {
+                transform: translateY(0);
+            }
+
+            to {
+                transform: translateY(-6px);
+            }
+        }
+
+        .location-marker {
+            position: absolute;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #fff;
+            border: 3px solid #b0bec5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #78909c;
+            cursor: pointer;
+            z-index: 4;
+            transform: translate(-50%, -50%) scale(0.9);
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .location-marker.unlocked {
+            border-color: var(--accent-cozy);
+            color: var(--accent-cozy-dark);
+            box-shadow: 0 0 12px var(--accent-cozy);
+            animation: pulseGlow 1.5s infinite alternate;
+        }
+
+        .location-marker.completed {
+            background: #a1d99b;
+            border-color: #74c476;
+            color: #fff;
+            box-shadow: none;
+        }
+
+        .location-marker.locked {
+            opacity: 0.4;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                box-shadow: 0 0 5px var(--accent-cozy);
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(1.15);
+                box-shadow: 0 0 15px var(--accent-cozy);
+            }
+        }
+
+        /* Pixel Art Rendering */
+        .pixel-art {
+            image-rendering: pixelated;
+            image-rendering: -moz-crisp-edges;
+            image-rendering: crisp-edges;
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Characters on Map */
+        .map-avatar {
+            position: absolute;
+            width: 32px;
+            height: 40px;
+            z-index: 5;
+            transform: translate(-50%, -105%);
+            transition: left 1s cubic-bezier(0.25, 1, 0.5, 1), top 1s cubic-bezier(0.25, 1, 0.5, 1);
+            pointer-events: none;
+            /* Clicking passes right through to the glowing marker underneath */
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.25));
+        }
+
+        .map-avatar.shreyas {
+            margin-left: -15px;
+        }
+
+        .map-avatar.cutu {
+            margin-left: 15px;
+        }
+
+        .map-avatar svg {
+            animation: pixelBob 1.2s ease-in-out infinite alternate;
+        }
+
+        .map-avatar.cutu svg {
+            animation-delay: 0.25s;
+        }
+
+        @keyframes pixelBob {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-4px);
+            }
+        }
+
+        /* PHASE 7: STORY LOCATIONS SCENES */
+        .story-box {
+            width: 100%;
+            max-width: 440px;
+            background: var(--card-cozy);
+            border: 2px solid var(--border-cozy);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(78, 54, 41, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-cozy);
+        }
+
+        .story-header {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-cozy-dark);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        .story-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .story-visual-canvas {
+            width: 100%;
+            height: 180px;
+            background: #fdfbf7;
+            border: 1px solid var(--border-cozy);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scene-char {
+            width: 50px;
+            height: 62px;
+            position: absolute;
+            bottom: 20px;
+            filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.15));
+            transition: all 1s ease-in-out;
+        }
+
+        .scene-char svg {
+            animation: pixelBobScene 1.5s ease-in-out infinite alternate;
+        }
+
+        .scene-char.cutu svg {
+            animation-delay: 0.3s;
+        }
+
+        @keyframes pixelBobScene {
+            0% {
+                transform: translateY(0);
+            }
+
+            100% {
+                transform: translateY(-4px);
+            }
+        }
+
+        .scene-char.shreyas {
+            left: 25%;
+        }
+
+        .scene-char.cutu {
+            right: 25%;
+        }
+
+        /* Hug & Kiss Animations */
+        .scene-char.hug-shreyas {
+            transform: rotate(8deg) scale(1.05) !important;
+            z-index: 4;
+        }
+
+        .scene-char.hug-cutu {
+            transform: rotate(-8deg) scale(1.05) !important;
+            z-index: 3;
+        }
+
+        .scene-char.back-hug-shreyas {
+            transform: translate(-6px, -4px) rotate(4deg) scale(1.02) !important;
+            z-index: 2;
+        }
+
+        .kiss-particle {
+            position: absolute;
+            font-size: 1.8rem;
+            pointer-events: none;
+            z-index: 10;
+            animation: kissFloat 1.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes kissFloat {
+            0% {
+                transform: translate(-50%, -50%) scale(0.2);
+                opacity: 0;
+            }
+
+            30% {
+                transform: translate(-50%, -65%) scale(1.4);
+                opacity: 1;
+            }
+
+            70% {
+                transform: translate(-50%, -85%) scale(1.1);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -120%) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .heart-burst {
+            position: absolute;
+            font-size: 1.4rem;
+            pointer-events: none;
+            z-index: 9;
+            animation: heartBurst 1.6s ease-out forwards;
+            filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.15));
+        }
+
+        @keyframes heartBurst {
+            0% {
+                transform: translate(-50%, 0) scale(0.4);
+                opacity: 0;
+            }
+
+            40% {
+                transform: translate(calc(-50% + var(--dx, 0px)), -40px) scale(1.2);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(calc(-50% + var(--dx, 0px)), -80px) scale(0.9);
+                opacity: 0;
+            }
+        }
+
+        .map-love-pop {
+            position: absolute;
+            font-size: 1.2rem;
+            pointer-events: none;
+            z-index: 8;
+            animation: mapLoveAnim 1.6s ease-out forwards;
+            filter: drop-shadow(0 3px 4px rgba(0, 0, 0, 0.2));
+        }
+
+        @keyframes mapLoveAnim {
+            0% {
+                transform: translate(-50%, -120%) scale(0.2);
+                opacity: 0;
+            }
+
+            35% {
+                transform: translate(-50%, -150%) scale(1.3);
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(-50%, -180%) scale(0.8);
+                opacity: 0;
+            }
+        }
+
+        .story-narrative {
+            width: 100%;
+            min-height: 80px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .story-choices {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            justify-content: center;
+            min-height: 50px;
+        }
+
+        /* SPECIFIC MINIGAME GRAPHICS */
+        /* RPG health bars for order battle */
+        .battle-bars {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .bar-container {
+            width: 100%;
+            height: 14px;
+            background: #eceff1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #cfd8dc;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--accent-cozy);
+            width: 100%;
+            transition: width 0.5s ease;
+        }
+
+        .bar-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* Screen Shake */
+        .shake {
+            animation: shakeScreen 0.5s;
+        }
+
+        @keyframes shakeScreen {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            10%,
+            30%,
+            50%,
+            70%,
+            90% {
+                transform: translate(-8px, -4px);
+            }
+
+            20%,
+            40%,
+            60%,
+            80% {
+                transform: translate(8px, 4px);
+            }
+        }
+
+        /* Flash Overlay */
+        .flash-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            opacity: 0;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .flash-overlay.active {
+            animation: flashAnim 0.8s ease-out;
+        }
+
+        @keyframes flashAnim {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Sleeping Eyes Overlay */
+        .sleepy-eyes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0);
+            pointer-events: none;
+            transition: background-color 1.5s ease;
+            z-index: 5;
+        }
+
+        /* Dialogue Box */
+        .speech-bubble {
+            position: absolute;
+            background: #fff;
+            border: 1px solid var(--border-cozy);
+            border-radius: 12px;
+            padding: 8px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            line-height: 1.4;
+            max-width: 65%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 6;
+            word-wrap: break-word;
+            pointer-events: none;
+        }
+
+        #bubble-shreyas {
+            left: 5%;
+            bottom: 92px;
+        }
+
+        #bubble-cutu {
+            right: 5%;
+            top: 20px;
+        }
+
+        .speech-bubble.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        #bubble-shreyas::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            left: 30%;
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: #fff transparent;
+            display: block;
+            width: 0;
+        }
+
+        #bubble-cutu::after {
+            content: '';
+            position: absolute;
+            bottom: -6px;
+            right: 30%;
+            border-width: 6px 6px 0;
+            border-style: solid;
+            border-color: #fff transparent;
+            display: block;
+            width: 0;
+        }
+
+        /* Radar sweep effect for hallway stealth */
+        .radar-sweep {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 82, 82, 0.15);
+            background: radial-gradient(circle, rgba(255, 82, 82, 0.03) 0%, rgba(255, 82, 82, 0) 70%);
+            animation: pulseRadar 2s linear infinite;
+        }
+
+        @keyframes pulseRadar {
+            0% {
+                transform: scale(0.3);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* PHASE 8: RELATIONSHIP COUNTER */
+        .counter-box {
+            text-align: center;
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-cozy);
+            border: 2px solid var(--border-cozy);
+            border-radius: 16px;
+            padding: 30px;
+            color: var(--text-cozy);
+            box-shadow: 0 10px 30px rgba(78, 54, 41, 0.08);
+        }
+
+        .counter-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent-cozy-dark);
+            margin-bottom: 25px;
+        }
+
+        .counter-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .counter-unit {
+            background: #fdfdfd;
+            border: 1px solid var(--border-cozy);
+            border-radius: 10px;
+            padding: 15px 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
+        }
+
+        .counter-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-cozy);
+            margin-bottom: 4px;
+        }
+
+        .counter-label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #8d6e63;
+            letter-spacing: 1px;
+        }
+
+        /* PHASE 9: FINAL REVEAL */
+        .final-analysis-box {
+            max-width: 440px;
+            width: 100%;
+            background: var(--card-cyber);
+            border: 1px solid var(--border-cyber);
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .terminal-log-flow {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.82rem;
+            color: var(--accent-cyber);
+            text-align: left;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            min-height: 140px;
+        }
+
+        .file-card {
+            background: rgba(0, 229, 255, 0.05);
+            border: 1px solid rgba(0, 229, 255, 0.25);
+            border-radius: 8px;
+            padding: 18px;
+            text-align: left;
+            margin-bottom: 25px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.6s ease;
+        }
+
+        .file-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .file-name {
+            font-family: 'Fira Code', monospace;
+            font-weight: 600;
+            font-size: 0.9rem;
+            color: var(--accent-cyber-alt);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .file-meta {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.72rem;
+            color: #8892b0;
+            line-height: 1.5;
+        }
+
+        /* PHASE 10: FINAL MESSAGE READ SCREEN */
+        .read-wrapper {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 10px;
+        }
+
+        .final-message-container {
+            font-family: 'Playfair Display', serif;
+            color: var(--text-read);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .final-header {
+            font-size: 2.2rem;
+            font-style: italic;
+            margin-bottom: 40px;
+            color: #4e342e;
+            text-align: center;
+        }
+
+        .final-text {
+            white-space: pre-wrap;
+            margin-bottom: 50px;
+            text-align: justify;
+        }
+
+        .final-footer {
+            border-top: 1px solid #efebe9;
+            padding-top: 30px;
+            text-align: center;
+            font-family: 'Outfit', sans-serif;
+            color: #8d6e63;
+            font-size: 0.9rem;
+        }
+
+        .case-closed {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #c62828;
+            margin-bottom: 10px;
+        }
+
+        /* Floating tiny hearts decoration */
+        .hearts-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+
+        .heart-particle {
+            position: absolute;
+            color: var(--accent-cozy);
+            font-size: 0.8rem;
+            opacity: 0.6;
+            animation: floatUp 8s linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(105vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.6;
+            }
+
+            90% {
+                opacity: 0.6;
+            }
+
+            100% {
+                transform: translateY(-5vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive UI enhancements */
+        @media (max-width: 480px) {
+
+            .us-ai-container,
+            .photo-container,
+            .terminal-container,
+            .chat-container,
+            .map-container,
+            .story-box,
+            .counter-box,
+            .final-analysis-box {
+                border-radius: 12px;
+                padding: 20px;
+            }
+
+            .photo-frame {
+                width: 240px;
+                height: 240px;
+            }
+
+            .counter-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body class="cyber-theme">
+
+    <div id="app">
+
+        <!-- Phase 1: US.AI System Initialization -->
+        <div id="phase1" class="phase active">
+            <div class="us-ai-container">
+                <div class="us-ai-logo">US.AI</div>
+                <div class="us-ai-subtitle">PRIVATE RELATIONSHIP INTELLIGENCE SYSTEM</div>
+
+                <div class="scanner-frame">
+                    <img src="us.jpg" id="us-image-element" alt="Profile Classified">
+                    <div class="scanner-line"></div>
+                </div>
+
+                <div class="us-ai-info">
+                    <div><span class="label">MODEL:</span> US-01</div>
+                    <div><span class="label">STATUS:</span> <span id="us-status-txt">INITIALIZING</span></div>
+                    <div><span class="label">ACCESS:</span> RESTRICTED</div>
+                    <div><span class="label">DATASET:</span> CLASSIFIED</div>
+                </div>
+
+                <div class="boot-text" id="boot-text"></div>
+                <div class="enter-btn-wrap">
+                    <button class="btn-neon" id="enter-btn" style="display: none;" onclick="startShreyasExe()">[ ENTER
+                        ]</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 2: Shreyas.exe Malfunction -->
+        <div id="phase2" class="phase">
+            <div class="photo-container">
+                <div class="photo-frame" id="phase2-frame">
+                    <img id="phase2-img" src="" alt="Shreyas status">
+                </div>
+                <div class="caption-box" id="phase2-caption"></div>
+            </div>
+        </div>
+
+        <!-- Phase 3: System Interruption Terminal -->
+        <div id="phase3" class="phase">
+            <div class="terminal-container" id="terminal-screen"></div>
+        </div>
+
+        <!-- Phase 4: Recovered Chat -->
+        <div id="phase4" class="phase">
+            <div class="chat-container">
+                <div class="chat-header">
+                    <div class="chat-avatar">👧</div>
+                    <div class="chat-info">
+                        <div class="chat-name" id="recipient-name">Cutu</div>
+                        <div class="chat-status" id="chat-status-text">online</div>
+                    </div>
+                </div>
+
+                <div class="chat-body" id="chat-messages-container"></div>
+
+                <div class="typing-bubble" id="chat-typing-bubble">
+                    <div class="typing-dots">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+
+                <!-- Memory Glitch Warning Overlay -->
+                <div class="chat-warning-overlay" id="chat-warning-overlay">
+                    <div class="warning-title">WARNING</div>
+                    <div class="warning-text" id="warning-text-1"></div>
+                    <div class="warning-text" id="warning-text-2" style="font-weight: 600; color: #ff8a80;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 5: Dream Transition Screen -->
+        <div id="phase5" class="phase dream-transition-screen">
+            <div class="dream-transition-text" id="dream-transition-text">WELCOME TO THE STORY OF US</div>
+        </div>
+
+        <!-- Phase 6: Cozy Story Map -->
+        <div id="phase6" class="phase">
+            <div class="map-wrapper">
+                <div class="map-title">WELCOME TO THE STORY OF US</div>
+                <div class="map-container">
+                    <svg class="map-svg-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <polyline id="map-polyline-base" points="20,85 40,75 75,70 60,50 30,45 20,25 50,15 80,25 85,45"
+                            fill="none" stroke="rgba(78, 54, 41, 0.15)" stroke-width="1.5" stroke-dasharray="3,3"
+                            stroke-linecap="round" />
+                        <polyline id="map-polyline-active" points="20,85" fill="none" stroke="var(--accent-cozy)"
+                            stroke-width="2" stroke-linecap="round" stroke-dasharray="1000" stroke-dashoffset="0" />
+                    </svg>
+
+                    <!-- Cozy Map Decor elements -->
+                    <div class="map-decor" style="top: 10%; left: 10%;">☁️</div>
+                    <div class="map-decor" style="top: 22%; right: 12%; animation-delay: 1s;">☁️</div>
+                    <div class="map-decor" style="top: 50%; left: 8%;">🌳</div>
+                    <div class="map-decor" style="bottom: 12%; right: 18%; animation-delay: 1.5s;">🌳</div>
+                    <div class="map-decor" style="top: 38%; right: 28%;">🌳</div>
+                    <div class="map-decor" style="bottom: 25%; left: 22%;">🛋️</div>
+                    <div class="map-decor" style="top: 5%; left: 50%;">✨</div>
+                    <div class="map-decor" style="top: 40%; left: 70%;">✨</div>
+
+                    <!-- Glowing Markers -->
+                    <div id="markers-root"></div>
+
+                    <!-- Character Avatars -->
+                    <div class="map-avatar shreyas" id="map-avatar-shreyas" style="left: 20%; top: 85%;"></div>
+                    <div class="map-avatar cutu" id="map-avatar-cutu" style="left: 20%; top: 85%;"></div>
+                </div>
+                <div
+                    style="font-size: 0.8rem; font-weight: 500; color: #8d6e63; margin-top: 12px; font-family: monospace;">
+                    Tap the glowing location marker to proceed
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 7: Story Locations -->
+        <div id="phase7" class="phase">
+            <div class="story-box">
+                <div class="story-header" id="story-phase-header">MEMORY 1</div>
+                <div class="story-title" id="story-phase-title">Title</div>
+
+                <div class="story-visual-canvas" id="story-canvas">
+                    <div class="flash-overlay" id="flash-overlay-elem"></div>
+                    <div class="sleepy-eyes" id="sleepy-eyes-elem"></div>
+                    <div class="radar-sweep" id="radar-sweep-elem" style="display: none;"></div>
+
+                    <div class="speech-bubble" id="bubble-shreyas"></div>
+                    <div class="speech-bubble" id="bubble-cutu"></div>
+
+                    <div class="scene-char shreyas" id="scene-char-shreyas"></div>
+                    <div class="scene-char cutu" id="scene-char-cutu"></div>
+
+                    <!-- Bathroom door icon for location 2 -->
+                    <div id="bathroom-door"
+                        style="display: none; position: absolute; right: 20px; bottom: 30px; font-size: 2.2rem; transition: transform 0.5s;">
+                        🚪</div>
+                </div>
+
+                <div class="story-narrative" id="story-narrative-text">Text story here...</div>
+
+                <div class="story-choices" id="story-choices-root">
+                    <button class="btn-cozy" onclick="progressStory()">Continue</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 8: Relationship Counter -->
+        <div id="phase8" class="phase">
+            <div class="counter-box">
+                <div class="counter-title">TIME SINCE WE BECAME US</div>
+                <div class="counter-grid" id="relationship-counter-grid">
+                    <div class="counter-unit">
+                        <span class="counter-value" id="val-years">00</span>
+                        <span class="counter-label">YEARS</span>
+                    </div>
+                    <div class="counter-unit">
+                        <span class="counter-value" id="val-months">00</span>
+                        <span class="counter-label">MONTHS</span>
+                    </div>
+                    <div class="counter-unit">
+                        <span class="counter-value" id="val-days">00</span>
+                        <span class="counter-label">DAYS</span>
+                    </div>
+                    <div class="counter-unit">
+                        <span class="counter-value" id="val-hours">00</span>
+                        <span class="counter-label">HOURS</span>
+                    </div>
+                    <div class="counter-unit">
+                        <span class="counter-value" id="val-minutes">00</span>
+                        <span class="counter-label">MINUTES</span>
+                    </div>
+                    <div class="counter-unit">
+                        <span class="counter-value" id="val-seconds">00</span>
+                        <span class="counter-label">SECONDS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 9: Final Reveal -->
+        <div id="phase9" class="phase">
+            <div class="final-analysis-box">
+                <div class="us-ai-logo" style="font-size: 1.8rem; margin-bottom: 20px;">US.AI // FINAL ANALYSIS</div>
+
+                <div class="terminal-log-flow" id="final-terminal-logs"></div>
+
+                <div class="file-card" id="file-card-element">
+                    <div class="file-name">
+                        <span>📄</span> SHREYAS_FINAL_MESSAGE.txt
+                    </div>
+                    <div class="file-meta">
+                        SIZE: Unnecessarily large<br>
+                        ESTIMATED READING TIME: Bro seriously?
+                    </div>
+                </div>
+
+                <div style="height: 50px;">
+                    <button class="btn-neon" id="open-message-btn" style="display: none;" onclick="openFinalMessage()">[
+                        OPEN FINAL MESSAGE ]</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Phase 10: Final Message -->
+        <div id="phase10" class="phase">
+            <div class="read-wrapper">
+                <div class="final-message-container">
+                    <div class="final-header">For my Cutu ❤️</div>
+                    <div class="final-text" id="final-text-content"></div>
+                    <div class="final-footer">
+                        <div class="case-closed">CASE CLOSED.</div>
+                        <div>Until our next stupid fight.</div>
+                        <div style="margin-top: 6px; font-size: 0.8rem; color: #a1887f;">Which will probably end with
+                            food.</div>
+                        <div style="margin-top: 25px; font-size: 1.6rem;">❤️</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Soft Heart particles floating overlay -->
+    <div class="hearts-particles" id="hearts-root"></div>
+
+    <script>
+        // ==================================================
+        // 1. CONFIGURATION
+        // ==================================================
+        const CONFIG = {
+            myName: "Shreyas",
+            herName: "Sneha",
+            nickname: "Cutu",
+
+            relationshipStart: {
+                year: 2024,
+                month: 5,
+                day: 3,
+                hour: 23,
+                minute: 23,
+                second: 25,
+                timezone: "Asia/Kolkata"
+            },
+
+            usImage: "us.jpg",
+
+            openingImages: [
+                "me1.jpg",
+                "me2.jpg",
+                "me3.jpg"
+            ]
+        };
+
+        const FINAL_MESSAGE = `
+cutu ❤️
+
+hehehehe finally you reached here 😭😭😭
+
+but before ending all this stupidness and craziness, i actually wanted to say a few things properly. like jokes apart, memes apart, pokemon game apart and everything 😭😭😭
+
+dekho dear, i know these past few days were not easy. i know i was angry on you and i was harsh on you sometimes. and i know you probably felt a lot of things because of that. mai silent bhi tha and i know sometimes when someone you love suddenly becomes silent, it hurts and you start thinking so many things in your head. maybe you felt bad, maybe you felt guilty, maybe you felt like things weren't okay between us, i don't know exactly what all was going through your mind but i know it wouldn't have been easy for you either.
+
+and for my part in making you feel all that, i am sorry cutu. genuinely. i was hurt and frustrated, yes, but that doesn't mean i handled everything perfectly. maybe there were moments where i could have explained things more calmly instead of getting angry. maybe i could have listened more instead of just staying silent. and i don't want you to ever feel like when something goes wrong between us, you have to be scared of how i'll react. i don't want our relationship to ever feel like a place where you're walking carefully because you're scared i'll get angry. you're my person dear, and more than anything i want you to feel safe with me.
+
+and cutu, i want you to understand something properly about why i sometimes keep telling you things again and again 😭😭😭. it's never because i want to control you or make you live according to what i say. bhai honestly i don't want that 😭😭😭. i care because you matter to me. your life matters to me. your health matters to me. your dreams matter to me. the things you want to achieve matter to me.
+
+and maybe sometimes i get frustrated because i see so much potential in you. like genuinely cutu, i know you can do so many things. i know you are capable of much more than sometimes you give yourself credit for. and when i see you ignoring yourself or doubting yourself or not doing things which i know you're completely capable of doing, that's when i start worrying. not because i think you're not enough. exactly the opposite actually. because i know how much you are capable of.
+
+i just want ki tu apni life mein sab kuch kare dear. genuinely. jo bhi tere dreams hain, jo bhi tujhe karna hai, jo bhi places explore karni hain, jo bhi achievements chahiye, jo bhi life tu imagine karti hai for yourself... i want you to have all of it. i want to see you do things and achieve things and become proud of yourself. and selfishly 😭😭😭 i want to be there watching all of it happen. i want to be the person you come to after you achieve something and say "cutuuuuu i did itttt" and then i'll obviously act like i knew it already 🤨☝️😭😭😭.
+
+i want to be your support system cutu. not someone who makes you feel like you're constantly being judged or corrected. i want to be the person who reminds you of who you are when you forget it yourself. when you're tired, i want to support you. when you doubt yourself, i want to remind you that you can do it. when something goes wrong, i want you to know that you can come to me without being scared that i'll judge you.
+
+and there is something else which genuinely matters to me. i know sometimes you doubt yourself and sometimes your confidence goes down because of things people say or because of how you see yourself. and honestly cutu, i hate the idea of anyone making you feel small about yourself. i don't ever want anyone to make you feel bad about your body or say things that make you question yourself. i don't want you looking at yourself and only seeing things you want to criticise.
+
+of course i want you to take care of your health, and i'll always encourage you to do that, but not because i want you to become acceptable to anyone else. you don't have to earn the right to feel good about yourself. i just want you to feel healthy, strong and confident. i want you to look at yourself and actually like the person you see. i want that self-confidence of yours to come back properly.
+
+because dear, for me, you matter a lot. like genuinely a lot. probably more than i am able to explain properly sometimes. and that's why small things related to you affect me. when you're happy, it makes me happy. when you're excited about something, i automatically get excited. when you're sad, i want to know what's wrong. when you're not taking care of yourself, obviously i'm going to worry 😭😭😭.
+
+but i also don't want you to feel like every conversation with me has to become about what you need to improve. that's not what i want us to be. i don't love you because of some future version of you that i'm waiting for. i love you right now, with your stupidness, your hehehes, your random moods, your sleepy conversations, your chotu don behaviour 😭😭😭, everything.
+
+i just want us to grow together. i want you to become everything you want to become and i want to become better too. and somewhere along the way, i want us to keep holding each other's hands through all of it. because it's not just about you changing or you improving. i also know i have things to work on. i know when i'm angry i can become harsh. i know sometimes i hold things inside and then suddenly everything comes out together 😭😭😭. i know sometimes my concern can come out in a way that feels like pressure instead of support. and i want to work on that too.
+
+these few days actually made me realise how much i don't like being distant from you 😭😭😭. dry conversations with you are so weird bhai. like seeing your message and replying normally with just "hmm" feels so wrong 😭😭😭. where is my normal cutu who randomly says something stupid, does heheheehe, sends unnecessary messages and calls me pagal insaan 😭😭😭.
+
+and honestly, after all these years and after everything we've experienced together, one thing is very clear to me. i don't want perfection from us. we'll probably fight again because apparently we're both professionally trained in that 😭😭😭. but i want us to learn how to come back to each other every time. i want us to remember that even when we're angry, it's never supposed to be me versus you. it's us versus whatever problem is in front of us.
+
+thank you for apologising to me dear. i know you meant what you wrote and i genuinely appreciate that. and i want you to know that i forgive you. properly. no hidden anger, no keeping scores, no saving this fight in some secret folder to bring it up later 😭😭😭. it's over cutu. case closed.
+
+and from my side too, i'm sorry for making things harder for you with my anger and my silence. i was hurt, yes, but i could have handled some things better too. and i'll try to do that. because if i want you to grow, i also have to grow myself.
+
+and cutu, just remember one thing okay. you don't have to become perfect. you don't have to prove anything to me. i just want you to believe in yourself again. i want you to take care of yourself, work towards your dreams, do crazy things, learn new things, achieve whatever the fuck you want to achieve 😭😭😭 and live a life that one day makes you sit back and think "haan bhai, maza aaya."
+
+and throughout all of that, i want you to know that you have me.
+
+not to live your life for you.
+
+not to control your decisions.
+
+but to stand beside you.
+
+to support you.
+
+to remind you of your strength when you forget it.
+
+to celebrate your wins.
+
+to listen when things go wrong.
+
+and sometimes obviously to irritate you and tell you to get your shit together 😭😭😭🤨☝️.
+
+because that's what i want to be for you dear.
+
+your person. your partner. your support system.
+
+and despite all the fights, all the stupid arguments, all the dry conversations and everything else...
+
+i love you.
+
+i genuinely genuinely do.
+
+and even when i'm angry at you, somewhere behind all that anger you're still my cutu 😭❤️.
+
+so now no more sadness okay.
+
+we're back.
+
+back to fighting over who orders food.
+
+back to silent vcs.
+
+back to you calling me pagal insaan and telling me to have some sharam 😭😭😭.
+
+back to me calling you cutu in literally every sentence.
+
+and back to being the same two idiots we've always been.
+
+i love you cutu.
+
+and i want to see you happy.
+
+confident.
+
+healthy.
+
+doing everything you've ever wanted to do.
+
+and becoming so proud of yourself that one day you look back and realise how far you've come.
+
+and when that happens...
+
+i hope i'm sitting somewhere beside you, annoying you as usual and saying:
+
+"bola tha na meri cutu karlegi 😭❤️"
+
+hehehehehehe.
+
+i love you baby. 🫂❤️
+        `.trim();
+
+        // Pixel Art SVGs for Shreyas and Cutu
+        const PIXEL_SHREYAS_SVG = `<svg class="pixel-art" viewBox="0 0 16 20" shape-rendering="crispEdges">
+            <rect x="5" y="1" width="6" height="1" fill="#18181b"/>
+            <rect x="4" y="2" width="8" height="2" fill="#18181b"/>
+            <rect x="3" y="4" width="3" height="2" fill="#18181b"/>
+            <rect x="10" y="4" width="3" height="2" fill="#18181b"/>
+            <rect x="5" y="4" width="6" height="4" fill="#fcd34d"/>
+            <rect x="4" y="5" width="8" height="4" fill="#fcd34d"/>
+            <rect x="5" y="5" width="2" height="2" fill="#09090b"/>
+            <rect x="5" y="5" width="1" height="1" fill="#ffffff"/>
+            <rect x="9" y="5" width="2" height="2" fill="#09090b"/>
+            <rect x="9" y="5" width="1" height="1" fill="#ffffff"/>
+            <rect x="7" y="6" width="2" height="1" fill="#09090b"/>
+            <rect x="7" y="8" width="2" height="1" fill="#b45309"/>
+            <rect x="7" y="9" width="2" height="1" fill="#f59e0b"/>
+            <rect x="4" y="10" width="8" height="5" fill="#3b82f6"/>
+            <rect x="3" y="11" width="1" height="4" fill="#2563eb"/>
+            <rect x="12" y="11" width="1" height="4" fill="#2563eb"/>
+            <rect x="7" y="10" width="2" height="4" fill="#93c5fd"/>
+            <rect x="2" y="14" width="2" height="2" fill="#fcd34d"/>
+            <rect x="12" y="14" width="2" height="2" fill="#fcd34d"/>
+            <rect x="5" y="15" width="3" height="3" fill="#1e293b"/>
+            <rect x="8" y="15" width="3" height="3" fill="#1e293b"/>
+            <rect x="4" y="18" width="3" height="2" fill="#f8fafc"/>
+            <rect x="4" y="19" width="3" height="1" fill="#ef4444"/>
+            <rect x="9" y="18" width="3" height="2" fill="#f8fafc"/>
+            <rect x="9" y="19" width="3" height="1" fill="#ef4444"/>
+        </svg>`;
+
+        const PIXEL_CUTU_SVG = `<svg class="pixel-art" viewBox="0 0 16 20" shape-rendering="crispEdges">
+            <rect x="5" y="1" width="6" height="1" fill="#3b0764"/>
+            <rect x="4" y="2" width="8" height="2" fill="#3b0764"/>
+            <rect x="3" y="3" width="10" height="2" fill="#3b0764"/>
+            <rect x="3" y="5" width="2" height="7" fill="#3b0764"/>
+            <rect x="11" y="5" width="2" height="7" fill="#3b0764"/>
+            <rect x="5" y="4" width="6" height="4" fill="#fde68a"/>
+            <rect x="4" y="5" width="8" height="4" fill="#fde68a"/>
+            <rect x="5" y="5" width="2" height="2" fill="#1e1b4b"/>
+            <rect x="5" y="5" width="1" height="1" fill="#ffffff"/>
+            <rect x="9" y="5" width="2" height="2" fill="#1e1b4b"/>
+            <rect x="9" y="5" width="1" height="1" fill="#ffffff"/>
+            <rect x="4" y="7" width="2" height="1" fill="#f43f5e"/>
+            <rect x="10" y="7" width="2" height="1" fill="#f43f5e"/>
+            <rect x="7" y="8" width="2" height="1" fill="#db2777"/>
+            <rect x="7" y="9" width="2" height="1" fill="#f59e0b"/>
+            <rect x="4" y="10" width="8" height="5" fill="#f43f5e"/>
+            <rect x="3" y="11" width="1" height="4" fill="#e11d48"/>
+            <rect x="12" y="11" width="1" height="4" fill="#e11d48"/>
+            <rect x="7" y="11" width="2" height="2" fill="#fda4af"/>
+            <rect x="2" y="14" width="2" height="2" fill="#fde68a"/>
+            <rect x="12" y="14" width="2" height="2" fill="#fde68a"/>
+            <rect x="5" y="15" width="6" height="2" fill="#334155"/>
+            <rect x="5" y="17" width="2" height="1" fill="#fde68a"/>
+            <rect x="9" y="17" width="2" height="1" fill="#fde68a"/>
+            <rect x="4" y="18" width="3" height="2" fill="#be185d"/>
+            <rect x="9" y="18" width="3" height="2" fill="#be185d"/>
+        </svg>`;
+
+        // ==================================================
+        // 2. APP STATE
+        // ==================================================
+        let activePhase = 1;
+        let unlockedLocationId = 1;
+        let storyProgressIndex = 0;
+        let relationshipCounterInterval = null;
+
+        const wait = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+        // ==================================================
+        // 3. THEME MANAGER & BOOTSTRAP
+        // ==================================================
+        function setAppTheme(theme) {
+            document.body.className = '';
+            if (theme === 'cyber') {
+                document.body.classList.add('cyber-theme');
+            } else if (theme === 'cozy') {
+                document.body.classList.add('cozy-theme');
+            } else if (theme === 'read') {
+                document.body.classList.add('read-theme');
+            }
+        }
+
+        function showPhase(phaseId) {
+            document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+            const targetPhase = document.getElementById(`phase${phaseId}`);
+            if (targetPhase) {
+                targetPhase.classList.add('active');
+                activePhase = phaseId;
+            }
+        }
+
+        window.onload = function () {
+            setAppTheme('cyber');
+            // Ensure us.jpg from CONFIG is loaded
+            document.getElementById('us-image-element').src = CONFIG.usImage;
+            startBootSequence();
+        };
+
+        // Floating Hearts generator
+        function startHeartsGenerator() {
+            const root = document.getElementById('hearts-root');
+            setInterval(() => {
+                if (activePhase >= 5) {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart-particle';
+                    heart.textContent = '❤️';
+                    heart.style.left = Math.random() * 100 + 'vw';
+                    const duration = 5 + Math.random() * 5;
+                    heart.style.animationDuration = duration + 's';
+                    const scale = 0.5 + Math.random() * 0.8;
+                    heart.style.transform = `scale(${scale})`;
+                    root.appendChild(heart);
+
+                    setTimeout(() => {
+                        heart.remove();
+                    }, duration * 1000);
+                }
+            }, 600);
+        }
+
+        // ==================================================
+        // 4. PHASE 1: US.AI BOOT SEQUENCE
+        // ==================================================
+        async function startBootSequence() {
+            const bootLines = [
+                "Initializing...",
+                "Loading personality data...",
+                "Loading behavioral patterns...",
+                "Loading questionable decisions...",
+                "Loading emotional damage...",
+                "Loading food-related arguments...",
+                "Loading Cutu dependency...",
+                "ERROR: Dependency exceeds safe limits."
+            ];
+
+            const bootEl = document.getElementById('boot-text');
+            const statusTxt = document.getElementById('us-status-txt');
+
+            for (let i = 0; i < bootLines.length; i++) {
+                if (i === bootLines.length - 1) {
+                    statusTxt.textContent = "CRITICAL LIMIT";
+                    statusTxt.style.color = "#ff5252";
+                } else {
+                    statusTxt.textContent = "LOADING";
+                }
+
+                // Simulate progress typing
+                bootEl.innerHTML = bootLines[i] + '<span class="cursor-blink"></span>';
+                await wait(800);
+            }
+
+            bootEl.innerHTML = "System ready.";
+            document.getElementById('enter-btn').style.display = 'inline-block';
+        }
+
+        // ==================================================
+        // 5. PHASE 2: SHREYAS.EXE CAPTIONS TIMELINE
+        // ==================================================
+        async function startShreyasExe() {
+            showPhase(2);
+
+            const frame = document.getElementById('phase2-frame');
+            const img = document.getElementById('phase2-img');
+            const captionBox = document.getElementById('phase2-caption');
+
+            const timeline = [
+                // Image 1 sequence
+                { imgIdx: 0, text: "Hmmmmmm...", waitMs: 1500 },
+                { imgIdx: 0, text: "So...", waitMs: 1500 },
+                { imgIdx: 0, text: "You think I'm going to forgive you that easily???", waitMs: 3000 },
+
+                // Image 2 sequence
+                { imgIdx: 1, text: "WAIT.", waitMs: 1500 },
+                { imgIdx: 1, text: "Who the fuck allowed this guy into the system?", waitMs: 2500 },
+                { imgIdx: 1, text: "System security is clearly terrible.", waitMs: 2500 },
+
+                // Image 3 sequence
+                { imgIdx: 2, text: "Oh.", waitMs: 1200 },
+                { imgIdx: 2, text: "Never mind.", waitMs: 1200 },
+                { imgIdx: 2, text: "That's just Shreyas.exe.", waitMs: 2000 },
+                { imgIdx: 2, text: "He's behaving normally.", waitMs: 2000 },
+
+                // Disappear image, leave text
+                { imgIdx: null, text: "Please ignore him.", waitMs: 1500 },
+                { imgIdx: null, text: "He's not in charge here.", waitMs: 1800 },
+                { imgIdx: null, text: "Actually...", waitMs: 1500 },
+                { imgIdx: null, text: "I already forgave you.", waitMs: 2200 },
+                { imgIdx: null, text: "Or maybe I didn't.", waitMs: 1800 },
+                { imgIdx: null, text: "Wait.", waitMs: 1200 },
+                { imgIdx: null, text: "What the fuck...", waitMs: 1500 },
+                { imgIdx: null, text: "Who did I forgive?", waitMs: 1800 },
+                { imgIdx: null, text: "Fuck all this confusion.", waitMs: 1800 },
+                { imgIdx: null, text: "Hehehe.", waitMs: 1500 },
+                { imgIdx: null, text: "I love you cutu.", waitMs: 2200 },
+                { imgIdx: null, text: "Tu cute hai toh zyada der gussa bhi kaise rahun?", waitMs: 3200 }
+            ];
+
+            let lastImgIndex = -9;
+            for (let step of timeline) {
+                if (step.imgIdx !== null) {
+                    if (step.imgIdx !== lastImgIndex) {
+                        frame.classList.remove('visible');
+                        await wait(600);
+                        img.src = CONFIG.openingImages[step.imgIdx];
+                        frame.classList.add('visible');
+                        lastImgIndex = step.imgIdx;
+                    }
+                } else {
+                    frame.classList.remove('visible');
+                    lastImgIndex = null;
+                }
+
+                captionBox.innerHTML = step.text + '<span class="cursor-blink"></span>';
+                await wait(step.waitMs);
+            }
+
+            startSystemInterruption();
+        }
+
+        // ==================================================
+        // 6. PHASE 3: TERMINAL SYSTEM INTERRUPTION
+        // ==================================================
+        async function startSystemInterruption() {
+            showPhase(3);
+            const term = document.getElementById('terminal-screen');
+            term.innerHTML = '';
+
+            const logs = [
+                "> SYSTEM INTERRUPTION",
+                "> UNAUTHORIZED MEMORY ACCESS DETECTED",
+                "> SEARCHING PRIVATE ARCHIVES...",
+                "> MEMORY MODULE FOUND",
+                "> MEMORY INDEX: 001",
+                "> MEMORY INDEX: 002",
+                "> MEMORY INDEX: 003",
+                "> RECOVERING...",
+                "> RESTORING CONVERSATION...",
+                "> CONVERSATION RECOVERED."
+            ];
+
+            for (let line of logs) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'terminal-line';
+                lineDiv.textContent = line;
+                term.appendChild(lineDiv);
+
+                // auto scroll down
+                term.scrollTop = term.scrollHeight;
+
+                await wait(450);
+            }
+
+            await wait(1500);
+            startChatRecovery();
+        }
+
+        // ==================================================
+        // 7. PHASE 4: CHAT RECOVERY & DIALOGS
+        // ==================================================
+        const recoveredChatLog = [
+            { sender: "Shreyas", text: "Hi", delay: 800 },
+            { sender: "Sneha", text: "Hi", delay: 1000 },
+            { sender: "Shreyas", text: "Good morning cutu", delay: 1200 },
+            { sender: "Sneha", text: "Good morninggg", delay: 1400 },
+            { sender: "Shreyas", text: "Kaise ho ?", delay: 1000 },
+            { sender: "Sneha", text: "Finee tum batao", delay: 1200 },
+            { sender: "Shreyas", text: "Badhiya", delay: 800 },
+            { sender: "Shreyas", text: "Kahan pe ho ?", delay: 1200 },
+            { sender: "Sneha", text: "Bus mein hoon", delay: 1400 },
+            { sender: "Sneha", text: "College jaa rahi hun", delay: 1000 },
+            { sender: "Shreyas", text: "Achaaa", delay: 800 },
+            { sender: "Sneha", text: "Hehehe", delay: 1200 },
+            { sender: "Shreyas", text: "Theek se jaana cutu", delay: 1000 },
+            { sender: "Sneha", text: "Hannn baba", delay: 1400 }
+        ];
+
+        async function startChatRecovery() {
+            showPhase(4);
+            const container = document.getElementById('chat-messages-container');
+            const typingBubble = document.getElementById('chat-typing-bubble');
+            const statusText = document.getElementById('chat-status-text');
+
+            container.innerHTML = '';
+
+            for (let message of recoveredChatLog) {
+                if (message.sender === "Sneha") {
+                    statusText.textContent = "typing...";
+                    typingBubble.style.display = 'block';
+                    // Scroll to bottom
+                    container.scrollTop = container.scrollHeight;
+
+                    await wait(message.delay);
+
+                    typingBubble.style.display = 'none';
+                    statusText.textContent = "online";
+                } else {
+                    await wait(message.delay);
+                }
+
+                const msgDiv = document.createElement('div');
+                msgDiv.className = `msg ${message.sender === 'Shreyas' ? 'sent' : 'received'}`;
+                msgDiv.textContent = message.text;
+                container.appendChild(msgDiv);
+
+                // Scroll down
+                container.scrollTop = container.scrollHeight;
+            }
+
+            await wait(1800);
+
+            // Trigger the glitch screen overlay warning
+            const overlay = document.getElementById('chat-warning-overlay');
+            overlay.classList.add('visible');
+
+            const text1 = document.getElementById('warning-text-1');
+            const text2 = document.getElementById('warning-text-2');
+
+            // Glitch soundless text prints
+            text1.textContent = "This conversation is not being analyzed.";
+            await wait(2200);
+            text2.textContent = '"It is being remembered."';
+
+            await wait(3000);
+            startDreamTransition();
+        }
+
+        // ==================================================
+        // 8. PHASE 5: DREAM TRANSITION
+        // ==================================================
+        async function startDreamTransition() {
+            setAppTheme('cozy');
+            showPhase(5);
+
+            const label = document.getElementById('dream-transition-text');
+            await wait(500);
+            label.classList.add('visible');
+
+            await wait(2800);
+            startHeartsGenerator();
+            initializeStoryMap();
+        }
+
+        // ==================================================
+        // 9. PHASE 6: STORY MAP CONTROLLER
+        // ==================================================
+        const storyLocations = [
+            { id: 1, name: "THE SECRET HUG", x: 20, y: 85 },
+            { id: 2, name: "PARENTS DETECTED", x: 40, y: 75 },
+            { id: 3, name: "HALLWAY CHAOS", x: 75, y: 70 },
+            { id: 4, name: "SILENT CONVERSATIONS", x: 60, y: 50 },
+            { id: 5, name: "THE FOOD QUEST", x: 30, y: 45 },
+            { id: 6, name: "PAGAL INSAAN PROTOCOL", x: 20, y: 25 },
+            { id: 7, name: "CUTU SLEEP MODE", x: 50, y: 15 },
+            { id: 8, name: "THE GREAT ARGUMENT", x: 80, y: 25 },
+            { id: 9, name: "FINDING OUR WAY BACK", x: 85, y: 45 }
+        ];
+
+        function initializeStoryMap() {
+            showPhase(6);
+
+            // Set pixel avatars inside map elements
+            document.getElementById('map-avatar-shreyas').innerHTML = PIXEL_SHREYAS_SVG;
+            document.getElementById('map-avatar-cutu').innerHTML = PIXEL_CUTU_SVG;
+
+            const markersRoot = document.getElementById('markers-root');
+            markersRoot.innerHTML = '';
+
+            storyLocations.forEach(loc => {
+                const marker = document.createElement('div');
+                marker.id = `marker-${loc.id}`;
+                marker.textContent = loc.id;
+                marker.style.left = loc.x + '%';
+                marker.style.top = loc.y + '%';
+
+                if (loc.id === unlockedLocationId) {
+                    marker.className = 'location-marker unlocked';
+                    marker.onclick = () => launchMemoryScene(loc.id);
+                } else if (loc.id < unlockedLocationId) {
+                    marker.className = 'location-marker completed';
+                } else {
+                    marker.className = 'location-marker locked';
+                }
+
+                markersRoot.appendChild(marker);
+            });
+
+            // Position avatars at the unlocked marker coordinates
+            const currentLoc = storyLocations[unlockedLocationId - 1];
+            moveMapAvatars(currentLoc.x, currentLoc.y);
+            updateMapPath();
+        }
+
+        function moveMapAvatars(x, y) {
+            const shreyas = document.getElementById('map-avatar-shreyas');
+            const cutu = document.getElementById('map-avatar-cutu');
+
+            shreyas.style.left = x + '%';
+            shreyas.style.top = y + '%';
+
+            cutu.style.left = x + '%';
+            cutu.style.top = y + '%';
+
+            // Pop a tiny map love heart when they arrive together
+            setTimeout(() => {
+                const board = document.getElementById('map-3d-board') || document.querySelector('.map-container');
+                if (board) {
+                    const pop = document.createElement('div');
+                    pop.className = 'map-love-pop';
+                    pop.style.left = x + '%';
+                    pop.style.top = y + '%';
+                    pop.innerHTML = ['💕', '💋', '💖'][Math.floor(Math.random() * 3)];
+                    board.appendChild(pop);
+                    setTimeout(() => pop.remove(), 1600);
+                }
+            }, 1000);
+        }
+
+        function triggerKissAnimation(xPercent = 50, yPercent = 50) {
+            const canvas = document.getElementById('story-canvas');
+            if (!canvas) return;
+            const kiss = document.createElement('div');
+            kiss.className = 'kiss-particle';
+            kiss.style.left = xPercent + '%';
+            kiss.style.top = yPercent + '%';
+            kiss.innerHTML = '💋';
+            canvas.appendChild(kiss);
+
+            // Pop extra small floating hearts around the kiss
+            for (let i = 0; i < 4; i++) {
+                const h = document.createElement('div');
+                h.className = 'heart-burst';
+                h.style.left = (xPercent + (Math.random() * 16 - 8)) + '%';
+                h.style.bottom = '80px';
+                h.style.setProperty('--dx', (Math.random() * 40 - 20) + 'px');
+                h.style.animationDelay = (i * 0.15) + 's';
+                h.innerHTML = ['💖', '💕', '✨', '🥰'][i % 4];
+                canvas.appendChild(h);
+                setTimeout(() => h.remove(), 2000);
+            }
+
+            setTimeout(() => kiss.remove(), 1600);
+        }
+
+        function triggerHugAnimation(type = 'front') {
+            const shreyas = document.getElementById('scene-char-shreyas');
+            const cutu = document.getElementById('scene-char-cutu');
+            const canvas = document.getElementById('story-canvas');
+            if (!shreyas || !cutu || !canvas) return;
+
+            if (type === 'back') {
+                // Shreyas hugs Sneha from behind
+                shreyas.style.left = '45%';
+                cutu.style.right = '32%';
+                shreyas.classList.add('back-hug-shreyas');
+            } else {
+                // Warm front embrace
+                shreyas.style.left = '37%';
+                cutu.style.right = '37%';
+                shreyas.classList.add('hug-shreyas');
+                cutu.classList.add('hug-cutu');
+            }
+
+            // Burst hearts above them
+            for (let i = 0; i < 5; i++) {
+                const h = document.createElement('div');
+                h.className = 'heart-burst';
+                h.style.left = (48 + (Math.random() * 16 - 8)) + '%';
+                h.style.bottom = '85px';
+                h.style.setProperty('--dx', (Math.random() * 50 - 25) + 'px');
+                h.style.animationDelay = (i * 0.15) + 's';
+                h.innerHTML = ['❤️', '💖', '💕', '🥰', '✨'][i % 5];
+                canvas.appendChild(h);
+                setTimeout(() => h.remove(), 2200);
+            }
+        }
+
+        function updateMapPath() {
+            const activePath = document.getElementById('map-polyline-active');
+            let pointsStr = "";
+            for (let i = 0; i < unlockedLocationId; i++) {
+                pointsStr += `${storyLocations[i].x},${storyLocations[i].y} `;
+            }
+            activePath.setAttribute('points', pointsStr.trim());
+        }
+
+        // ==================================================
+        // 10. PHASE 7: MEMORY STORIES NARRATION
+        // ==================================================
+        let currentMemorySceneId = 1;
+
+        function launchMemoryScene(id) {
+            currentMemorySceneId = id;
+            storyProgressIndex = 0;
+            showPhase(7);
+
+            // Clean restore of canvas nodes and SVGs
+            restoreStoryCanvas();
+            clearSpeechBubbles();
+
+            // Run scene
+            renderMemoryStep();
+        }
+
+        function renderMemoryStep() {
+            const header = document.getElementById('story-phase-header');
+            const title = document.getElementById('story-phase-title');
+
+            header.textContent = `MEMORY ${currentMemorySceneId}`;
+            title.textContent = storyLocations[currentMemorySceneId - 1].name;
+
+            const dialogues = memoryDialogues[currentMemorySceneId];
+            if (dialogues && storyProgressIndex < dialogues.length) {
+                dialogues[storyProgressIndex]();
+            } else {
+                // Done with memory
+                completeMemoryScene();
+            }
+        }
+
+        function progressStory() {
+            storyProgressIndex++;
+            renderMemoryStep();
+        }
+
+        async function completeMemoryScene() {
+            if (unlockedLocationId === currentMemorySceneId) {
+                unlockedLocationId++;
+            }
+
+            // If all done
+            if (unlockedLocationId > 9) {
+                startQuestCompleteScreen();
+            } else {
+                // Animate characters moving to the next spot on the map
+                showPhase(6);
+                initializeStoryMap();
+                const nextLoc = storyLocations[unlockedLocationId - 1];
+                await wait(200);
+                moveMapAvatars(nextLoc.x, nextLoc.y);
+                updateMapPath();
+                await wait(1000);
+                initializeStoryMap(); // Re-render to unlock button actions
+            }
+        }
+
+        // Narratives setup using JS Functions for maximum dynamic capabilities
+        const memoryDialogues = {
+            // Memory 1: The Secret Hug
+            1: [
+                () => {
+                    setNarrativeText("We were alone, hanging out at your place. Cozy, quiet, peaceful.");
+                    showChoicesBtn("Continue", progressStory);
+                },
+                async () => {
+                    setNarrativeText("I snuck up behind you while you were checking the camera...");
+                    const shreyas = document.getElementById('scene-char-shreyas');
+                    shreyas.style.left = "42%"; // Sneak up close behind
+                    showChoicesBtn("Hug Her From Behind", progressStory);
+                },
+                async () => {
+                    triggerHugAnimation('back');
+                    await wait(600);
+                    setNarrativeText("Wrapped in a tight secret hug... Click! 📸🥰");
+                    document.getElementById('flash-overlay-elem').classList.add('active');
+                    await wait(800);
+                    document.getElementById('flash-overlay-elem').classList.remove('active');
+                    showChoicesBtn("Continue", progressStory);
+                },
+                () => {
+                    setNarrativeText("Just a normal peaceful moment. Obviously, it did not remain peaceful for long...");
+                    showChoicesBtn("Proceed to Next Memory", progressStory);
+                }
+            ],
+            // Memory 2: Parents Detected
+            2: [
+                () => {
+                    setNarrativeText("Right as we were taking the photo, we heard the loud footsteps and keys in the door.");
+                    showChoicesBtn("Listen Closely", progressStory);
+                },
+                async () => {
+                    document.getElementById('story-canvas').classList.add('shake');
+                    setNarrativeText("BANG! KICK! KNOCK! Parents detected!");
+                    await wait(600);
+                    document.getElementById('story-canvas').classList.remove('shake');
+                    showChoicesBtn("PANIC", progressStory);
+                },
+                () => {
+                    // Show panic parameters
+                    setNarrativeText(`
+                        ALERT LEVEL: 100%<br>
+                        PANIC LEVEL: MAXIMUM<br>
+                        SWEAT PRODUCTION: UNPRECEDENTED<br>
+                        ESCAPE PLAN: BATHROOM
+                    `);
+                    showChoicesBtn("RUN FOR COVER", progressStory);
+                },
+                async () => {
+                    const shreyas = document.getElementById('scene-char-shreyas');
+                    const door = document.getElementById('bathroom-door');
+                    door.style.display = 'block';
+                    await wait(100);
+                    shreyas.style.left = "65%";
+                    await wait(800);
+                    shreyas.style.display = "none"; // Entered bathroom
+                    door.style.transform = "scaleX(0.1)"; // close door
+
+                    setNarrativeText("Shreyas locked himself in the bathroom, sweating like crazy.");
+                    showChoicesBtn("Check Sneha's Reaction", progressStory);
+                },
+                () => {
+                    showSpeechBubble('cutu', 'WHAT IS EVEN HAPPENING?!');
+                    setNarrativeText("Sneha is left outside to act completely normal while Shreyas hides inside like a secret agent.");
+                    showChoicesBtn("Continue", progressStory);
+                }
+            ],
+            // Memory 3: Hallway Chaos
+            3: [
+                () => {
+                    setNarrativeText("A 5-second stealth mission. Quick hugs, sneak peekaboo kisses in the hallway.");
+                    showChoicesBtn("Start Stealth Mission", progressStory);
+                },
+                async () => {
+                    // Characters rush together for stealth kiss & hug
+                    triggerHugAnimation('front');
+                    triggerKissAnimation(50, 48);
+                    setNarrativeText("Stealth kiss & quick hallway hug successful! 💋✨");
+                    await wait(1800);
+
+                    const radar = document.getElementById('radar-sweep-elem');
+                    radar.style.display = 'block';
+
+                    setNarrativeText("PEOPLE DETECTED: 1");
+                    showSpeechBubble('shreyas', 'Wait, wait!');
+                    await wait(1200);
+
+                    setNarrativeText("PEOPLE DETECTED: 2");
+                    showSpeechBubble('cutu', 'Separating!');
+                    await wait(1000);
+
+                    setNarrativeText("PEOPLE DETECTED: 4");
+
+                    const shreyas = document.getElementById('scene-char-shreyas');
+                    const cutu = document.getElementById('scene-char-cutu');
+                    shreyas.classList.remove('hug-shreyas');
+                    cutu.classList.remove('hug-cutu');
+
+                    shreyas.style.left = "10%";
+                    cutu.style.right = "10%";
+
+                    setNarrativeText("Both characters run in ridiculous directions like idiots.");
+                    showChoicesBtn("Show Mission Results", progressStory);
+                },
+                () => {
+                    document.getElementById('radar-sweep-elem').style.display = 'none';
+                    clearSpeechBubbles();
+                    setNarrativeText(`
+                        STEALTH RATING: 2/10<br>
+                        COORDINATION: 0/10<br>
+                        FUN: 100/10
+                    `);
+                    showChoicesBtn("Continue", progressStory);
+                }
+            ],
+            // Memory 4: Silent Conversations
+            4: [
+                () => {
+                    setNarrativeText("Late night video calls when we couldn't talk out loud.");
+                    showChoicesBtn("Initiate Call", progressStory);
+                },
+                async () => {
+                    setNarrativeText("VOICE: OFF. UNDERSTANDING: 100%.");
+
+                    showSpeechBubble('shreyas', '👋😊');
+                    await wait(1500);
+                    showSpeechBubble('cutu', '🤫❤️');
+                    await wait(1500);
+                    showSpeechBubble('shreyas', '👀🫶');
+                    await wait(1500);
+
+                    setNarrativeText("Sometimes we didn't even need words.");
+                    showChoicesBtn("Continue", progressStory);
+                }
+            ],
+            // Memory 5: The Food Quest
+            5: [
+                () => {
+                    clearSpeechBubbles();
+                    setNarrativeText("The ultimate recurring relationship battle: Deciding who orders the food.");
+                    showChoicesBtn("Fight!", progressStory);
+                },
+                async () => {
+                    // RPG Battle Simulation
+                    const canvas = document.getElementById('story-canvas');
+                    canvas.innerHTML = `
+                        <div class="battle-bars">
+                            <div class="bar-label"><span>Shreyas Refusal Bar</span><span>100%</span></div>
+                            <div class="bar-container"><div class="bar-fill" id="refuse-shreyas" style="width: 100%; background: #64b5f6;"></div></div>
+                            <div class="bar-label"><span>Sneha Refusal Bar</span><span>100%</span></div>
+                            <div class="bar-container"><div class="bar-fill" id="refuse-cutu" style="width: 100%; background: #f8bbd0;"></div></div>
+                        </div>
+                    `;
+
+                    setNarrativeText("SHREYAS USED: 'You order, standard treat rules!'");
+                    await wait(2000);
+
+                    setNarrativeText("SNEHA COUNTERED WITH: 'No, you order!'");
+                    document.getElementById('refuse-shreyas').style.width = '80%';
+                    await wait(2000);
+
+                    setNarrativeText("SHREYAS USED: 'Tu kuch order karde mereko tere pasand ka khaana hai'");
+                    document.getElementById('refuse-cutu').style.width = '70%';
+                    await wait(2200);
+
+                    setNarrativeText("SNEHA COUNTERED: 'Tu treat de raha hai na... Toh tu order karega!'");
+                    document.getElementById('refuse-shreyas').style.width = '40%';
+                    await wait(2200);
+
+                    setNarrativeText("SYSTEM ERROR: BOTH PLAYERS REFUSE TO ORDER.");
+                    document.getElementById('refuse-shreyas').style.width = '0%';
+                    document.getElementById('refuse-cutu').style.width = '0%';
+                    showChoicesBtn("Resolve Conflict", progressStory);
+                },
+                () => {
+                    // Restore canvas nodes
+                    restoreStoryCanvas();
+                    setNarrativeText(`
+                        SOLUTION FOUND: CUTU ORDERS.<br>
+                        SHREYAS WINS: ABSOLUTELY NOTHING.<br><br>
+                        BONUS RELATIONSHIP DISCOVERY: EVERY FIGHT SOMEHOW ENDS WITH FOOD.
+                    `);
+                    showChoicesBtn("Proceed", progressStory);
+                }
+            ],
+            // Memory 6: Pagal Insaan Protocol
+            6: [
+                () => {
+                    setNarrativeText("Our regular texting exchanges:");
+                    showChoicesBtn("Continue", progressStory);
+                },
+                async () => {
+                    clearSpeechBubbles();
+                    showSpeechBubble('cutu', 'Pagal insaan. Kuch toh sharam karle.');
+                    await wait(2200);
+                    clearSpeechBubbles();
+                    showSpeechBubble('shreyas', 'Agar tere paas bhi sharam karni pad jaaye toh tu as a GF fail ho jayegi.');
+                    await wait(2800);
+                    showSpeechBubble('shreyas', 'Dekh tere liye hi besharam hoon. Toh khudko kyun fail karna chahti hai?');
+                    await wait(3000);
+                    clearSpeechBubbles();
+
+                    setNarrativeText("SYSTEM OBSERVATION: Shreyas uses the word 'Cutu' approximately every 4.7 seconds...");
+                    showChoicesBtn("Recalculate Word Frequency", progressStory);
+                },
+                async () => {
+                    setNarrativeText("RECALCULATING... 2.3 seconds.");
+                    await wait(1500);
+                    setNarrativeText("RECALCULATING... CONSTANTLY.");
+                    showChoicesBtn("Continue", progressStory);
+                }
+            ],
+            // Memory 7: Cutu Sleep Mode
+            7: [
+                () => {
+                    clearSpeechBubbles();
+                    setNarrativeText("Sometimes she falls asleep mid-chat. She looks completely sleepy/high but pretends she's still awake.");
+                    showChoicesBtn("Observe", progressStory);
+                },
+                async () => {
+                    const cutu = document.getElementById('scene-char-cutu');
+                    cutu.style.transform = "rotate(12deg)";
+                    document.getElementById('sleepy-eyes-elem').style.backgroundColor = 'rgba(0, 0, 0, 0.4)';
+
+                    const zzz = document.createElement('div');
+                    zzz.id = 'zzz-elem';
+                    zzz.style.position = 'absolute';
+                    zzz.style.bottom = '85px';
+                    zzz.style.right = '24%';
+                    zzz.style.fontSize = '1.3rem';
+                    zzz.style.fontWeight = 'bold';
+                    zzz.style.color = '#fff';
+                    zzz.style.textShadow = '0 2px 4px rgba(0,0,0,0.5)';
+                    zzz.textContent = '💤 zZz...';
+                    document.getElementById('story-canvas').appendChild(zzz);
+
+                    setNarrativeText(`
+                        CUTU.exe HAS ENTERED SLEEP MODE<br>
+                        Phone: STILL ACTIVE<br>
+                        Brain: QUESTIONABLE<br>
+                        Boyfriend: OBSERVING RESPECTFULLY
+                    `);
+                    showChoicesBtn("Tell her to get up and bring water", progressStory);
+                },
+                () => {
+                    // Present interactive option
+                    setNarrativeText("Would you actually tell her to do it in this state?");
+                    document.getElementById('story-choices-root').innerHTML = `
+                        <button class="btn-cozy" onclick="triggerSleepDecision('yes')">YES</button>
+                        <button class="btn-cozy" style="background:#b0bec5; box-shadow:none;" onclick="triggerSleepDecision('no')">ABSOLUTELY NOT</button>
+                    `;
+                }
+            ],
+            // Memory 8: The Great Argument
+            8: [
+                () => {
+                    // Restore elements
+                    restoreStoryCanvas();
+                    const shreyas = document.getElementById('scene-char-shreyas');
+                    const cutu = document.getElementById('scene-char-cutu');
+                    shreyas.style.left = "15%";
+                    cutu.style.right = "15%";
+
+                    setNarrativeText("We had a fight. Distance, silence, dry conversations. Out of care, but hurt nonetheless.");
+                    showChoicesBtn("View Conflict Stats", progressStory);
+                },
+                () => {
+                    const canvas = document.getElementById('story-canvas');
+                    canvas.innerHTML = `
+                        <div class="battle-bars">
+                            <div class="bar-label"><span>ANGER</span><span>90%</span></div>
+                            <div class="bar-container"><div class="bar-fill" style="width: 90%; background: #ef5350;"></div></div>
+                            <div class="bar-label"><span>EGO</span><span>70%</span></div>
+                            <div class="bar-container"><div class="bar-fill" style="width: 70%; background: #ab47bc;"></div></div>
+                            <div class="bar-label"><span>MISUNDERSTANDING</span><span>80%</span></div>
+                            <div class="bar-container"><div class="bar-fill" style="width: 80%; background: #ffa726;"></div></div>
+                            <div class="bar-label"><span>MISSING EACH OTHER</span><span>100%</span></div>
+                            <div class="bar-container"><div class="bar-fill" style="width: 100%; background: #26a69a;"></div></div>
+                            <div class="bar-label"><span>ABILITY TO STAY MAD FOREVER</span><span>0%</span></div>
+                            <div class="bar-container"><div class="bar-fill" style="width: 0%; background: #9e9e9e;"></div></div>
+                        </div>
+                    `;
+                    setNarrativeText("BATTLE RESULT: NO WINNER.");
+                    showChoicesBtn("Why?", progressStory);
+                },
+                () => {
+                    restoreStoryCanvas();
+                    setNarrativeText('"Because this was never supposed to be a battle."');
+
+                    // Force the choice of US
+                    document.getElementById('story-choices-root').innerHTML = `
+                        <button class="btn-cozy" onclick="triggerArgumentChoice('ego')" style="background:#b0bec5; box-shadow:none;">CHOOSE EGO</button>
+                        <button class="btn-cozy" onclick="triggerArgumentChoice('us')">CHOOSE US</button>
+                    `;
+                }
+            ],
+            // Memory 9: Finding Our Way Back
+            9: [
+                () => {
+                    restoreStoryCanvas();
+                    const shreyas = document.getElementById('scene-char-shreyas');
+                    const cutu = document.getElementById('scene-char-cutu');
+                    shreyas.style.left = "15%";
+                    cutu.style.right = "15%";
+
+                    setNarrativeText("The environment is quiet. Distance separate us, but we started talking. Calmly.");
+                    showChoicesBtn("Listen to Each Other", progressStory);
+                },
+                async () => {
+                    setNarrativeText("She listened. He listened. She apologized. He apologized too.");
+                    showSpeechBubble('cutu', 'Sorry cutu...');
+                    await wait(1800);
+                    showSpeechBubble('shreyas', 'Sorry dear...');
+                    await wait(1800);
+
+                    setNarrativeText("They explained how they felt, and stopped trying to win.");
+                    showChoicesBtn("Walk Back Together", progressStory);
+                },
+                async () => {
+                    clearSpeechBubbles();
+                    triggerHugAnimation('front');
+                    await wait(800);
+                    triggerKissAnimation(50, 42);
+
+                    setNarrativeText("They embraced, remembered they were on the same team, and found their way back. ❤️🥰✨");
+                    await wait(1500);
+
+                    const heartElem = document.createElement('div');
+                    heartElem.style.position = 'absolute';
+                    heartElem.style.bottom = '90px';
+                    heartElem.style.left = '50%';
+                    heartElem.style.transform = 'translateX(-50%) scale(1.4)';
+                    heartElem.style.fontSize = '2rem';
+                    heartElem.style.animation = 'pixelBobScene 1.2s infinite alternate';
+                    heartElem.textContent = '💖';
+                    document.getElementById('story-canvas').appendChild(heartElem);
+
+                    showChoicesBtn("Complete Quest", progressStory);
+                }
+            ]
+        };
+
+        function setNarrativeText(htmlContent) {
+            document.getElementById('story-narrative-text').innerHTML = htmlContent;
+        }
+
+        function showChoicesBtn(btnText, callback) {
+            const root = document.getElementById('story-choices-root');
+            root.innerHTML = '';
+            const btn = document.createElement('button');
+            btn.className = 'btn-cozy';
+            btn.textContent = btnText;
+            btn.onclick = callback;
+            root.appendChild(btn);
+        }
+
+        function showSpeechBubble(char, text) {
+            const bubble = document.getElementById(`bubble-${char}`);
+            bubble.textContent = text;
+            bubble.classList.add('visible');
+        }
+
+        function clearSpeechBubbles() {
+            document.getElementById('bubble-shreyas').classList.remove('visible');
+            document.getElementById('bubble-cutu').classList.remove('visible');
+        }
+
+        function restoreStoryCanvas() {
+            const canvas = document.getElementById('story-canvas');
+            canvas.innerHTML = `
+                <div class="flash-overlay" id="flash-overlay-elem"></div>
+                <div class="sleepy-eyes" id="sleepy-eyes-elem"></div>
+                <div class="radar-sweep" id="radar-sweep-elem" style="display: none;"></div>
+                
+                <div class="speech-bubble" id="bubble-shreyas"></div>
+                <div class="speech-bubble" id="bubble-cutu"></div>
+
+                <div class="scene-char shreyas" id="scene-char-shreyas">${PIXEL_SHREYAS_SVG}</div>
+                <div class="scene-char cutu" id="scene-char-cutu">${PIXEL_CUTU_SVG}</div>
+                <div id="bathroom-door" style="display: none; position: absolute; right: 20px; bottom: 30px; font-size: 2.2rem; transition: transform 0.5s;">🚪</div>
+            `;
+        }
+
+        function triggerSleepDecision(choice) {
+            setNarrativeText(`
+                SYSTEM DECISION: Do not disturb sleeping Cutu.<br>
+                Risk assessment: EXTREMELY HIGH.
+            `);
+            showChoicesBtn("Acknowledge Decision", progressStory);
+        }
+
+        function triggerArgumentChoice(choice) {
+            if (choice === 'ego') {
+                document.getElementById('story-canvas').classList.add('shake');
+                setNarrativeText("Error: That's not how we do things. Staying angry is not an option.");
+                setTimeout(() => {
+                    document.getElementById('story-canvas').classList.remove('shake');
+                }, 500);
+            } else {
+                setNarrativeText("BOTH PLAYERS CHOSE: US.");
+                showChoicesBtn("Walk Back Together", progressStory);
+            }
+        }
+
+        // ==================================================
+        // 11. PHASE 8: RELATIONSHIP COUNTER
+        // ==================================================
+        function startQuestCompleteScreen() {
+            showPhase(8);
+
+            // Calculate starting counter right away
+            updateRelationshipCounter();
+            relationshipCounterInterval = setInterval(updateRelationshipCounter, 1000);
+
+            // Automatically move forward after 9 seconds of peaceful duration look
+            setTimeout(() => {
+                clearInterval(relationshipCounterInterval);
+                startFinalReveal();
+            }, 9000);
+        }
+
+        function getRelationshipDuration() {
+            const startYear = CONFIG.relationshipStart.year;
+            const startMonth = CONFIG.relationshipStart.month - 1; // 0-indexed in JS
+            const startDay = CONFIG.relationshipStart.day;
+            const startHour = CONFIG.relationshipStart.hour;
+            const startMinute = CONFIG.relationshipStart.minute;
+            const startSecond = CONFIG.relationshipStart.second;
+
+            const startDate = new Date(startYear, startMonth, startDay, startHour, startMinute, startSecond);
+            const now = new Date();
+
+            // Using Intl trick to get exact components in Asia/Kolkata timezone
+            const getISTParts = (dateObj) => {
+                const formatter = new Intl.DateTimeFormat('en-US', {
+                    timeZone: CONFIG.relationshipStart.timezone,
+                    year: 'numeric', month: 'numeric', day: 'numeric',
+                    hour: 'numeric', minute: 'numeric', second: 'numeric',
+                    hour12: false
+                });
+                const parts = formatter.formatToParts(dateObj);
+                const result = {};
+                parts.forEach(p => {
+                    if (p.type !== 'literal') result[p.type] = parseInt(p.value, 10);
+                });
+                return result;
+            };
+
+            const startParts = getISTParts(startDate);
+            const nowParts = getISTParts(now);
+
+            let years = nowParts.year - startParts.year;
+            let months = nowParts.month - startParts.month;
+            let days = nowParts.day - startParts.day;
+            let hours = nowParts.hour - startParts.hour;
+            let minutes = nowParts.minute - startParts.minute;
+            let seconds = nowParts.second - startParts.second;
+
+            if (seconds < 0) {
+                seconds += 60;
+                minutes--;
+            }
+            if (minutes < 0) {
+                minutes += 60;
+                hours--;
+            }
+            if (hours < 0) {
+                hours += 24;
+                days--;
+            }
+            if (days < 0) {
+                // Find days in previous month
+                let prevMonth = nowParts.month - 1;
+                let prevYear = nowParts.year;
+                if (prevMonth === 0) {
+                    prevMonth = 12;
+                    prevYear--;
+                }
+                const daysInPrevMonth = new Date(prevYear, prevMonth, 0).getDate();
+                days += daysInPrevMonth;
+                months--;
+            }
+            if (months < 0) {
+                months += 12;
+                years--;
+            }
+
+            return { years, months, days, hours, minutes, seconds };
+        }
+
+        function updateRelationshipCounter() {
+            const dur = getRelationshipDuration();
+
+            document.getElementById('val-years').textContent = String(dur.years).padStart(2, '0');
+            document.getElementById('val-months').textContent = String(dur.months).padStart(2, '0');
+            document.getElementById('val-days').textContent = String(dur.days).padStart(2, '0');
+            document.getElementById('val-hours').textContent = String(dur.hours).padStart(2, '0');
+            document.getElementById('val-minutes').textContent = String(dur.minutes).padStart(2, '0');
+            document.getElementById('val-seconds').textContent = String(dur.seconds).padStart(2, '0');
+        }
+
+        // ==================================================
+        // 12. PHASE 9: FINAL REVEAL & SYSTEM RECOVERY
+        // ==================================================
+        async function startFinalReveal() {
+            setAppTheme('cyber');
+            showPhase(9);
+
+            const logsEl = document.getElementById('final-terminal-logs');
+            const fileCard = document.getElementById('file-card-element');
+            const openBtn = document.getElementById('open-message-btn');
+
+            const textLines = [
+                "US.AI // FINAL ANALYSIS...",
+                "Analysis complete.",
+                "One anomaly remains.",
+                "The creator of this system appears to be emotionally compromised.",
+                "CREATOR IDENTIFIED: SHREYAS",
+                "Original purpose of system: NOT TO ANALYZE HER.",
+                "TO MAKE SOMETHING FOR HER.",
+                "ONE FINAL FILE RECOVERED..."
+            ];
+
+            for (let line of textLines) {
+                const lineDiv = document.createElement('div');
+                lineDiv.className = 'terminal-line';
+                lineDiv.textContent = line;
+                logsEl.appendChild(lineDiv);
+                await wait(1000);
+            }
+
+            fileCard.classList.add('visible');
+            await wait(1200);
+            openBtn.style.display = 'inline-block';
+        }
+
+        // ==================================================
+        // 13. PHASE 10: FINAL MESSAGE READ MODE
+        // ==================================================
+        function openFinalMessage() {
+            setAppTheme('read');
+            showPhase(10);
+            document.getElementById('final-text-content').textContent = FINAL_MESSAGE;
+        }
+
+    </script>
+</body>
+
+</html>
